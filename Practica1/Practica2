@@ -1,2 +1,6 @@
-const cuadrado = (numero) => numero * numero;
-console.log(cuadrado(8));
+const SaludoPersonalizado = (nombre, edad) => {
+    return saludo = "Hola, me llamo " + nombre + " y tengo " + edad + " años."
+};
+//HOLA, ME LLAMO ISAY Y TENGO 37 AÑOS.
+
+console.log(SaludoPersonalizado("Ivan", 36));
