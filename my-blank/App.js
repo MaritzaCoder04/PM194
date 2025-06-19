@@ -2,17 +2,21 @@
 
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import React,{useState} from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native'; //importar button
+import React,{useState} from 'react'; //se usa para cambiar texto
 
 
 const Texto=({style})=>{
   const [contenido,setContenido]=useState('Hola Mundo RNative');//contenido ya tiene un valor de arranque
-  const actualizaTexto=()=>{setContenido('Estado actualizado del Text')} //funcion arrow :)
+const actualizartexto=()=> {setContenido('Hola mundo como estas?')}; //a continuacion agregamos un view, un text y un boton
   return (
-    <Text style={[styles.text, style]} onPress={actualizaTexto}> {contenido} </Text>//como es arrow no se ponen parentesis
+    <View style={{margin: 10}}> 
+    <Text style={[styles.text, style]}>{contenido}</Text>
+    <Button title='actualizarTexto' onPress={actualizartexto}color="purple"/> 
+    </View>
   )
 };
+ 
 
 
 /* Zona 2 : Main */
