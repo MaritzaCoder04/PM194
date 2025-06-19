@@ -1,34 +1,35 @@
 /* Zona 1 : Importaciones */
 
-
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native'; //importar button
-import React,{useState} from 'react'; //se usa para cambiar texto
+import { StyleSheet, Text, View, Button, Switch} from 'react-native'; //importar button
+import React,{useState} from 'react'; //se usa para cambiar texto 
 
 
-const Texto=({style})=>{
-  const [contenido,setContenido]=useState('Hola Mundo RNative');//contenido ya tiene un valor de arranque
-const actualizartexto=()=> {setContenido('Hola mundo como estas?')}; //a continuacion agregamos un view, un text y un boton
+const Interruptor = () => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
   return (
-    <View style={{margin: 10}}> 
-    <Text style={[styles.text, style]}>{contenido}</Text>
-    <Button title='actualizarTexto' onPress={actualizartexto}color="purple"/> 
+    <View >
+      <Text >
+        {isEnabled ? 'Activado': 'Desactivado'}
+      </Text>
+      <Switch
+      trackColor={{false: '#767577', true:'#81b0ff'}}
+      thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+      onValueChange={toggleSwitch}
+      value={isEnabled}
+      />
     </View>
-  )
-};
- 
-
+  ) 
+}
 
 /* Zona 2 : Main */
 
-
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Texto style={styles.red}></Texto>
-      <Texto style={styles.blue}></Texto>
-      <Texto style={styles.green}></Texto>
-      <StatusBar style="auto" />
+export default function App(){
+return (
+    <View >
+    <Interruptor/>
     </View>
   );
 }
