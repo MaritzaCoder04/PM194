@@ -1,5 +1,6 @@
 /* Zona 1 : Importaciones */
 import * as SplashScreen from 'expo-splash-screen';
+import { ImageBackground } from 'react-native';
 import React,{useEffect, useState} from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 
@@ -7,13 +8,28 @@ import { StyleSheet, Text, View} from 'react-native';
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [splash, setAppready] = useState(false);
+  const [appReady, setAppready] = useState(false);
   useEffect(() => {
     setTimeout(async () => {
       setAppready(true);
       await SplashScreen.hideAsync();
     }, 2000);
   }, []);
+
+  return(
+    <ImageBackground 
+    source={require('./assets/libros.jpg')}
+    style={styles.background}
+    resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>Bienvenido a mi app</Text>
+        <Text style={styles.subtitle}>
+          {appReady ? 'Carga completa' : 'Cargando...'}
+        </Text>
+      </View>
+    </ImageBackground>
+  );
 }
 
 
@@ -21,28 +37,26 @@ export default function App() {
 /* Zona 3 : Estetica del screen */
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+
   container: {
-    flexGrow: 1,
-    backgroundColor: '#f0f0f0',
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
   },
   title:{
-    color:'#333',
-    fontSize:17,
-    marginBottom: 6,
-    alingSelf: 'flex-start',
+    color:'white',
+    fontSize:32,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
-  input: {
-  heignt: 44,
-  borderColor: '#bbb',
-  borderWidth: 1,
-  paddingHorizontal: 10,
-  marginBottom: 16,
-  borderRadius: 8,
-  backgroundColor: '#fff',
-  widht: '100%',
-  fontSize: 15,
-  },
+  subtitle:{
+    color:'white',
+    fontSize: 18,
+  }
 });
