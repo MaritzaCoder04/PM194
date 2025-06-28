@@ -1,105 +1,61 @@
 /* Zona 1 : Importaciones */
 import React,{useEffect, useState} from 'react';
-import { StyleSheet, Text, View, ImageBackground, ScrollView} 
+import { StyleSheet, Text, View, ActivityIndicator, Button} 
 from 'react-native';
 
 /* Zona 2 : Main */
 export default function App() {
+  const [loading, setLoading] = useState(false);
+  const [mensaje, setMensaje] = useState('');
+
+
+const simularCarga =()=>{
+  setLoading(true);
+  setMensaje('');
+  setTimeout(() => {
+    setLoading(false);
+    setMensaje('CARGA COMPLETA');
+  }, 3000);
+};
+
   return (
-    <ScrollView 
-    contentContainerStyle={styles.background} 
-    showsVerticalScrollIndicator={false}
-    horizontal={true}>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-      <Text>Hola Mundo</Text>
-    </ScrollView>
-  )
+    <View style = {styles.container}>
+      <Text style = {styles.titulo}>
+        Carga
+      </Text>
+      {loading ?(
+        <>
+        <ActivityIndicator size = "large" color = "#2D9CDB"/>
+        <Text style = {styles.texto}>CARGANDO...</Text>
+        </>
+      ):(
+        <>
+        <Button title="Iniciar carga" onPress={simularCarga}/>
+        {mensaje !== ''&& <Text style={styles.exito}>{mensaje}</Text>}
+        </>
+      )}
+    </View>
+  );
 }
 
 /* Zona 3 : Estetica del screen */
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  overlay:{
-    flex: 1,
-    width: '100%',
-  },
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  title:{
-    color:'white',
-    fontSize:32,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  titulo:{
+    fontSize:22,
+    marginBottom:20,
   },
-  subtitle:{
-    color:'white',
-    fontSize: 18,
+  texto:{
+    marginTop: 15,
+    color:'gray'
+  },
+  exito:{
+    marginTop:20,
+    color:'green',
+    fontWeight:'bold'
   }
 });
