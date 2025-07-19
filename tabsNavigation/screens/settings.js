@@ -1,7 +1,8 @@
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function Settings({ navigation }) {
+export default function Settings() {
   return (
     <View style={styles.container}>
       <View style={styles.iconRow}>
@@ -10,7 +11,7 @@ export default function Settings({ navigation }) {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -31,3 +32,4 @@ const styles = StyleSheet.create({
     color: 'blue',
   },
 });
+
