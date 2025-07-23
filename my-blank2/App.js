@@ -1,137 +1,167 @@
-/* Zona 1 */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 import {
-  StyleSheet, Text, View, Button, TextInput, ScrollView,
-  Switch, Alert, ImageBackground
-} from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Modal,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
-/* Zona 2 */
+
+
+
+const ModalPersonalizado = ({ visible, onClose, children }) => (
+  <Modal
+    visible={visible}
+    transparent={true}
+    animationType="fade"
+    onRequestClose={onClose}
+  >
+    <View style={styles.modalBackground}>
+      <View style={styles.modalBox}>
+        {children}
+        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <Text style={styles.buttonText}>CERRAR</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
+
+
+
+
+
+
 export default function App() {
-  const [appReady, setAppReady] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [mostrarTexto, setMostrarTexto] = useState("");
 
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await SplashScreen.preventAutoHideAsync();
-        // Simula carga de recursos, puede ir aquí si hay otros procesos
-        setTimeout(async () => {
-          setAppReady(true);
-          await SplashScreen.hideAsync();
-        }, 2000);
-      } catch (e) {
-        console.warn(e);
-      }
-    }
-    prepare();
-  }, []);
-
-  const toggleSwitch = () => setIsEnabled(prev => !prev);
-
-  const showAlert = () => {
-    if (name.trim() === '' || email.trim() === '') {
-      Alert.alert('Campos incompletos', 'Por favor, completa todos los campos.');
-      return;
-    }
-
-    if (!isEnabled) {
-      Alert.alert('Términos no aceptados', 'Debes aceptar los términos y condiciones.');
-      return;
-    }
-
-    Alert.alert('Registro exitoso', `Nombre: ${name}\nCorreo: ${email}`);
+  const handleMostrar = () => {
+    setMostrarTexto(inputValue);
   };
 
-  if (!appReady) return null; // No renderiza nada mientras carga
-
   return (
-    <ImageBackground
-      source={require('./assets/libros.jpg')}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Nombre completo:</Text>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.openButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.buttonText}>MOSTRAR MODAL</Text>
+      </TouchableOpacity>
+
+      <ModalPersonalizado
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      >
+        <Text style={styles.modalText}>¡Este es un modal estructurado!</Text>
         <TextInput
           style={styles.input}
-          placeholder="Escribe tu nombre"
-          value={name}
-          onChangeText={setName}
+          placeholder="Escribe algo aquí..."
+          placeholderTextColor="#aaa"
+          value={inputValue}
+          onChangeText={setInputValue}
         />
-
-        <Text style={styles.title}>Correo electrónico:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Escribe tu correo"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-
-        <Text style={styles.title}>Aceptar términos y condiciones:</Text>
-        <View style={styles.switchContainer}>
-          <Text style={styles.switchText}>{isEnabled ? 'Acepto' : 'No acepto'}</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
-
-        <View style={styles.button}>
-          <Button title="Registrarme" onPress={showAlert} color="#6200ee" />
-        </View>
-      </ScrollView>
-    </ImageBackground>
+        <TouchableOpacity style={styles.showButton} onPress={handleMostrar}>
+          <Text style={styles.buttonText}>MOSTRAR</Text>
+        </TouchableOpacity>
+        {mostrarTexto !== "" && (
+          <Text style={styles.resultado}>
+            Lo escrito:{" "}
+            <Text style={styles.resultadoTexto}>{mostrarTexto}</Text>
+          </Text>
+        )}
+      </ModalPersonalizado>
+    </View>
   );
 }
 
-/* Zona Estética */
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
   container: {
-    flexGrow: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    flex: 1,
+    backgroundColor: "#f4f4f4",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  title: {
-    fontSize: 17,
-    color: 'white',
-    marginBottom: 6,
+  openButton: {
+    backgroundColor: "#2196F3",
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    marginBottom: 10,
+    elevation: 2,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBox: {
+    backgroundColor: "white",
+    padding: 28,
+    borderRadius: 18,
+    width: 320,
+    alignItems: "center",
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  modalText: {
+    fontSize: 22,
+    marginBottom: 18,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#222",
   },
   input: {
-    height: 44,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    paddingHorizontal: 10,
+    width: "100%",
+    borderColor: "#2196F3",
+    borderWidth: 1.5,
+    borderRadius: 10,
+    padding: 10,
     marginBottom: 16,
+    fontSize: 17,
+    backgroundColor: "#f9f9f9",
+    color: "#222",
+  },
+  showButton: {
+    backgroundColor: "#4CAF50",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
     borderRadius: 8,
-    backgroundColor: '#fff',
-    width: '80%',
-    fontSize: 15,
+    marginBottom: 14,
+    elevation: 2,
   },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  switchText: {
-    color: 'white',
-    marginRight: 10,
-  },
-  button: {
-    width: '80%',
+  closeButton: {
+    backgroundColor: "#FF5252",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
     borderRadius: 8,
-    overflow: 'hidden',
+    marginTop: 8,
+    elevation: 2,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center",
+    letterSpacing: 1,
+  },
+  resultado: {
+    marginTop: 10,
+    fontSize: 17,
+    color: "#333",
+    textAlign: "center",
+  },
+  resultadoTexto: {
+    color: "#2196F3",
+    fontWeight: "bold",
   },
 });
